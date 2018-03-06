@@ -25,7 +25,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
 
     router.get("/users/:user_id",function(req,res){
       var query = "SELECT * FROM ?? WHERE ??=?";
-      var table = ["user_login","user_id",req.params.user_id];
+      var table = ["player","user_id",req.params.user_id];
       query = mysql.format(query,table);
       connection.query(query,function(err,rows){
           if(err) {
@@ -36,15 +36,16 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
       });
     });
 
-    router.get("/users",function(req,res){
+    router.get("/markers",function(req,res){
+      res.setHeader('Access-Control-Allow-Origin', '*');
       var query = "SELECT * FROM ??";
-      var table = ["user_login"];
+      var table = ["marker"];
       query = mysql.format(query,table);
       connection.query(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Success", "Users" : rows});
+              res.json({"Error" : false, "Message" : "Success", "Markers" : rows});
           }
       });
     });
